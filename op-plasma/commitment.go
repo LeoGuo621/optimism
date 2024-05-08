@@ -34,7 +34,7 @@ type CommitmentData interface {
 // Keccak256Commitment is an implementation of CommitmentData that uses Keccak256 as the commitment function.
 type Keccak256Commitment []byte
 
-// Keccak256Commitment is an implementation of CommitmentData that treats the commitment as an opaque bytestring.
+// GenericCommitment is an implementation of CommitmentData that treats the commitment as an opaque bytestring.
 type GenericCommitment []byte
 
 // NewCommitmentData creates a new commitment from the given input and desired type.
