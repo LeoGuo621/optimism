@@ -82,7 +82,7 @@ func (info *L1BlockInfo) marshalBinaryBedrock() ([]byte, error) {
 	if err := solabi.WriteUint64(w, info.Time); err != nil {
 		return nil, err
 	}
-	if err := solabi.WriteUint256(w, info.BaseFee); err != nil {
+	if err := solabi.WriteUint256(w, new(big.Int).SetUint64(0)); err != nil {
 		return nil, err
 	}
 	if err := solabi.WriteHash(w, info.BlockHash); err != nil {

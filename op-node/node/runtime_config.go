@@ -5,13 +5,12 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/params"
-
 	"github.com/ethereum-optimism/optimism/op-node/p2p"
 	"github.com/ethereum-optimism/optimism/op-node/rollup"
 	"github.com/ethereum-optimism/optimism/op-service/eth"
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/log"
+	"github.com/ethereum/go-ethereum/params"
 )
 
 var (
@@ -98,10 +97,12 @@ func (r *RuntimeConfig) RecommendedProtocolVersion() params.ProtocolVersion {
 // Load is safe to call concurrently, but will lock the runtime configuration modifications only,
 // and will thus not block other Load calls with possibly alternative L1 block views.
 func (r *RuntimeConfig) Load(ctx context.Context, l1Ref eth.L1BlockRef) error {
-	p2pSignerVal, err := r.l1Client.ReadStorageAt(ctx, r.rollupCfg.L1SystemConfigAddress, UnsafeBlockSignerAddressSystemConfigStorageSlot, l1Ref.Hash)
-	if err != nil {
-		return fmt.Errorf("failed to fetch unsafe block signing address from system config: %w", err)
-	}
+	//p2pSignerVal, err := r.l1Client.ReadStorageAt(ctx, r.rollupCfg.L1SystemConfigAddress, UnsafeBlockSignerAddressSystemConfigStorageSlot, l1Ref.Hash)
+	//fmt.Println("######L1SystemConfigAddress: ", r.rollupCfg.L1SystemConfigAddress)
+	//fmt.Println("#######l1Ref.Hash: ", l1Ref.Hash)
+	//if err != nil {
+	//	return fmt.Errorf("failed to fetch unsafe block signing address from system config: %w", err)
+	//}
 	// The superchain protocol version data is optional; only applicable to rollup configs that specify a ProtocolVersions address.
 	var requiredProtVersion, recommendedProtoVersion params.ProtocolVersion
 	if r.rollupCfg.ProtocolVersionsAddress != (common.Address{}) {
@@ -119,7 +120,7 @@ func (r *RuntimeConfig) Load(ctx context.Context, l1Ref eth.L1BlockRef) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 	r.l1Ref = l1Ref
-	r.p2pBlockSignerAddr = common.BytesToAddress(p2pSignerVal[:])
+	r.p2pBlockSignerAddr = common.BytesToAddress([]byte("0x76cfd34E2715c162Ee1a302aCA07219B5edD093d"))
 	r.required = requiredProtVersion
 	r.recommended = recommendedProtoVersion
 	r.log.Info("loaded new runtime config values!", "p2p_seq_address", r.p2pBlockSignerAddr)
